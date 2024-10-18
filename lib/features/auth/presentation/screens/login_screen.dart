@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -141,12 +141,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         : PrimaryButton(
                             label: "Sign In",
                             onPressed: () {
-                              Navigator.pushNamed(context, Routes.home);
-                              // context.read<AuthBloc>().add(
-                              //       AuthEventLogin(
-                              //           email: email ?? '',
-                              //           password: password ?? ''),
-                              //     );
+                              // Navigator.pushNamed(context, Routes.home);
+                              context.read<AuthBloc>().add(
+                                    AuthEventLogin(
+                                        email: email ?? '',
+                                        password: password ?? ''),
+                                  );
                             },
                             isEnabled: true,
                             labelColor: AppColors.white,

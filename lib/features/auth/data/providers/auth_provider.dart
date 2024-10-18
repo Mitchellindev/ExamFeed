@@ -2,7 +2,7 @@ import 'package:exam_feed/core/network/api_endpoint.dart';
 import 'package:exam_feed/core/network/dio_client.dart';
 import 'package:exam_feed/core/utils/logger.dart';
 
-class AuthProvider {
+class AuthProvider  extends DioClient{
   Future<Map<String, dynamic>> registerUser({
     required String fullName,
     required String email,
@@ -10,8 +10,8 @@ class AuthProvider {
     required String confirmPassword,
   }) async {
     try {
-      final response = await DioClient.instance.post(
-        path: ApiRoutes.signUp,
+      final response = await http.post(
+       ApiRoutes.signUp,
         data: {
           "email": email,
           "fullName": fullName,
@@ -19,7 +19,7 @@ class AuthProvider {
           "confirmPassword": confirmPassword,
         },
       );
-      return response;
+      return response.data;
     } catch (e) {
       logger.e(e);
       rethrow;
@@ -31,8 +31,8 @@ class AuthProvider {
     required String password,
   }) async {
     try {
-      final response = await DioClient.instance.post(
-        path: ApiRoutes.login,
+      final response = await http.post(
+         ApiRoutes.login,
         data: {
           "email": email,
           "password": password,
@@ -44,7 +44,7 @@ class AuthProvider {
           "password": password,
         },
       );
-      return response;
+      return response.data;
     } catch (e) {
       // logger.e(e);
       rethrow;

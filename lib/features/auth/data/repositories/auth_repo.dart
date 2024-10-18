@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:exam_feed/core/network/dio_exception.dart';
@@ -30,6 +32,7 @@ class AuthRepository {
         password: password,
         confirmPassword: confirmPassword,
       );
+      dev.log(response.toString(), name: 'response');
       await AuthUserLocalDataSourceImpl().saveUser(AuthUser.fromJson(response));
       return right(AuthRegisterUser.fromJson(response));
     } on DioException catch (e) {
