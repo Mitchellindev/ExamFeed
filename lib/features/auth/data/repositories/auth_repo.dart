@@ -51,6 +51,35 @@ class AuthRepository {
     }
   }
 
+  Future<EitherAuthRegisterUserOrAuthError> registerUserWithGoogle() async {
+    try {
+      final response = await provider.registerUserWithGoogle();
+      return right(AuthRegisterUser.fromJson(response));
+    } on DioException catch (e) {
+      return left(
+        AuthError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
+    } catch (e) {
+      return left(AuthError(errorMessage: e.toString()));
+    }
+  }
+
+  Future<EitherTrueOrAuthError> verifyEmail(String token) async {
+    try {
+      final response = await provider.verifyEmail(token: token);
+      if (response['message'] == 'Email successfully verified') {
+        return right(true);
+      } else {
+        return left(AuthError(errorMessage: "Invalid verification token."));
+      }
+    } catch (e) {
+      return left(AuthError(errorMessage: e.toString()));
+    }
+  }
+
   Future<EitherAuthUserOrAuthError> login({
     required String email,
     required String password,
@@ -77,6 +106,56 @@ class AuthRepository {
           errorMessage: e.toString(),
         ),
       );
+    }
+  }
+
+  Future<Either<AuthError, bool>> forgotPassword(
+      {required String email}) async {
+    try {
+      final response = await provider.forgotPassword(email: email);
+      if (response['message'] == "Email successfully sent") {
+        return right(true);
+      } else {
+        return left(AuthError(errorMessage: "Failed to send email"));
+      }
+    } on DioException catch (e) {
+      return left(
+        AuthError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
+    } catch (e) {
+      return left(
+        AuthError(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<Either<AuthError, bool>> verifyOtp(String otp) async {
+    try {
+      final response = await provider.verifyOtp(token: otp);
+      return response;
+    } catch (e) {
+      return left(AuthError(errorMessage: e.toString()));
+    }
+  }
+
+  // Reset Password
+  Future<Either<AuthError, bool>> resetPassword({
+    required String password,
+  }) async {
+    try {
+      final response = await provider.resetPassword(
+        password: password,
+      );
+      return response['message'] == 'Password reset successful'
+          ? right(true)
+          : left(AuthError(errorMessage: 'Password reset failed.'));
+    } catch (e) {
+      return left(AuthError(errorMessage: e.toString()));
     }
   }
 }

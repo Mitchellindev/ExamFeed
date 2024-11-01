@@ -31,22 +31,29 @@ class AuthEventLogin extends AuthEvent {
   });
 }
 
-// class AuthEventLogout extends AuthEvent {
-//   const AuthEventLogout();
-// }
+class AuthEventForgetPassword extends AuthEvent {
+  final String email;
 
-// class AuthEventSendEmailVerification extends AuthEvent {
-//   const AuthEventSendEmailVerification();
-// }
+  const AuthEventForgetPassword(this.email);
+}
 
-// class AuthEventSendPasswordReset extends AuthEvent {
-//   final String toEmail;
+class AuthEventGoogleSignup extends AuthEvent {
+  const AuthEventGoogleSignup();
+}
 
-//   const AuthEventSendPasswordReset({
-//     required this.toEmail,
-//   });
-// }
+class AuthEventVerifyEmail extends AuthEvent {
+  final String token;
+  const AuthEventVerifyEmail({required this.token});
+}
 
-// class AuthEventGetCurrentUser extends AuthEvent {
-//   const AuthEventGetCurrentUser();
-// }
+class AuthEventVerifyOtp extends AuthEvent {
+  final String token;
+  const AuthEventVerifyOtp({required this.token});
+}
+
+class AuthEventResetPassword extends AuthEvent {
+  final String password;
+  const AuthEventResetPassword({
+    required this.password,
+  });
+}

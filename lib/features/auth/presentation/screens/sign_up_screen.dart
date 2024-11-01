@@ -150,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             context, state.authError.errorMessage);
                       }
                       if (state is AuthStateIsRegistered) {
-                        Navigator.pushNamed(context, Routes.home);
+                        Navigator.pushNamed(context, Routes.verifyEmail);
                       }
                     },
                     builder: (context, state) {
@@ -230,27 +230,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderColor: AppColors.greyBackground,
                     textColor: AppColors.white,
                     fontWeight: FontWeight.w400,
-                    onPressed: () {},
-                  ),
-                  SizedBox(height: 20.h),
-                  IconButtonWidget(
-                    label: 'Continue with Apple',
-                    icon: 'assets/images/apple_logo.png',
-                    backgroundColor: AppColors.white,
-                    borderColor: AppColors.black,
-                    textColor: AppColors.black,
-                    fontWeight: FontWeight.w300,
-                    onPressed: () {},
-                  ),
-                  SizedBox(height: 20.h),
-                  IconButtonWidget(
-                    label: 'Continue with Facebook',
-                    icon: 'assets/images/facebook_logo.png',
-                    backgroundColor: AppColors.white,
-                    borderColor: AppColors.black,
-                    textColor: AppColors.black,
-                    fontWeight: FontWeight.w300,
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<AuthBloc>()
+                          .add(const AuthEventGoogleSignup());
+                    },
                   ),
                   SizedBox(height: 20.h),
                 ],

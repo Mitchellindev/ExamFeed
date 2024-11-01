@@ -1,8 +1,11 @@
 import 'package:exam_feed/core/network/api_endpoint.dart';
 import 'package:exam_feed/core/network/dio_client.dart';
 import 'package:exam_feed/core/utils/logger.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthProvider  extends DioClient{
+class AuthProvider extends DioClient {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   Future<Map<String, dynamic>> registerUser({
     required String fullName,
     required String email,
@@ -11,12 +14,51 @@ class AuthProvider  extends DioClient{
   }) async {
     try {
       final response = await http.post(
-       ApiRoutes.signUp,
+        ApiRoutes.signUp,
         data: {
           "email": email,
           "fullName": fullName,
           "password": password,
           "confirmPassword": confirmPassword,
+        },
+      );
+      return response.data;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> registerUserWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser != null) {
+        final response = await http.post(
+          ApiRoutes.signUpWithGoogle,
+          data: {
+            "email": googleUser.email,
+            "fullName": googleUser.displayName,
+            "googleId": googleUser.id,
+          },
+        );
+        return response.data;
+      } else {
+        throw Exception("Google Sign-In canceled");
+      }
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyEmail({
+    required String token,
+  }) async {
+    try {
+      final response = await http.post(
+        ApiRoutes.verifyEmail,
+        data: {
+          "token": token,
         },
       );
       return response.data;
@@ -32,7 +74,7 @@ class AuthProvider  extends DioClient{
   }) async {
     try {
       final response = await http.post(
-         ApiRoutes.login,
+        ApiRoutes.login,
         data: {
           "email": email,
           "password": password,
@@ -46,7 +88,53 @@ class AuthProvider  extends DioClient{
       );
       return response.data;
     } catch (e) {
-      // logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> forgotPassword({required String email}) async {
+    try {
+      final response = await http.post(
+        ApiRoutes.forgetPassword,
+        data: {
+          "email": email,
+        },
+      );
+      return response.data;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future verifyOtp({
+    required String token,
+  }) async {
+    try {
+      final response = await http.post(
+        ApiRoutes.verifToken,
+        data: {"token": token},
+      );
+      return response.data;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> resetPassword({
+    required String password,
+  }) async {
+    try {
+      final response = await http.post(
+        ApiRoutes.resetPassword,
+        data: {
+          "password": password,
+        },
+      );
+      return response.data;
+    } catch (e) {
+      logger.e(e);
       rethrow;
     }
   }

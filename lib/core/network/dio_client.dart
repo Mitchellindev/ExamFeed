@@ -12,7 +12,7 @@ class DioClient {
     http = Dio(BaseOptions(
         baseUrl: 'https://mobile-backend-5837.onrender.com/',
         connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 60),
         sendTimeout: const Duration(seconds: 30),
         headers: {
           "Accept": "application/json",

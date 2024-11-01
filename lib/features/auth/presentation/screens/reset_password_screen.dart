@@ -2,9 +2,13 @@ import 'package:exam_feed/config/router/routes.dart';
 import 'package:exam_feed/core/constants/app_colors.dart';
 import 'package:exam_feed/core/validator/validator.dart';
 import 'package:exam_feed/core/widgets/input_field_widget.dart';
+import 'package:exam_feed/core/widgets/loading_widget.dart';
 import 'package:exam_feed/core/widgets/primary_button.dart';
+import 'package:exam_feed/core/widgets/snackbar.dart';
 import 'package:exam_feed/core/widgets/text_widget.dart';
+import 'package:exam_feed/features/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -87,16 +91,33 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             const SizedBox(
               height: 32,
             ),
-            PrimaryButton(
-                label: "Save",
-                onPressed: () {
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthStateError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.authError.errorMessage);
+                } else if (state is AuthStatePasswordResetSuccess) {
                   Navigator.pushNamed(context, Routes.login);
-                },
-                labelColor: AppColors.white,
-                labelFontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                isEnabled: true,
-                backgroundColor: AppColors.primary),
+                }
+              },
+              builder: (context, state) {
+                return state is AuthStateIsLoading
+                    ? const LoadingWidget()
+                    : PrimaryButton(
+                        label: "Save",
+                        onPressed: () {
+                          BlocProvider.of<AuthBloc>(context).add(
+                            AuthEventResetPassword(
+                                password: confirmPassword ?? ''),
+                          );
+                        },
+                        labelColor: AppColors.white,
+                        labelFontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        isEnabled: true,
+                        backgroundColor: AppColors.primary);
+              },
+            ),
           ],
         )),
       ),
