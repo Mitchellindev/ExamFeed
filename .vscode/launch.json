@@ -8,9 +8,13 @@
             "name": "ExamFeed",
             "request": "launch",
             "type": "dart",
+            "program":  "lib/app/main.dev.dart",
             "args": [
-          "-v"
-        ]
+              "-v",
+              "development",
+              "--target",
+              "lib/app/main.dev.dart",
+            ]
         },
         {
             "name": "ExamFeed (profile mode)",
