@@ -113,7 +113,8 @@ class _OtpScreenState extends State<OtpScreen> {
                   InfoSnackBar.showErrorSnackBar(
                       context, state.authError.errorMessage);
                 } else if (state is AuthStateOtpVerified) {
-                  Navigator.pushNamed(context, Routes.resetPassword);
+                  Navigator.pushNamed(context, Routes.resetPassword,
+                      arguments: otp);
                 }
               },
               builder: (context, state) {
@@ -151,7 +152,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         if (canResendCode) {
                           resetTimer();
                           BlocProvider.of<AuthBloc>(context)
-                              .add(AuthEventForgetPassword("user@example.com"));
+                              .add(const AuthEventForgetPassword(''));
                         }
                       },
                   ),

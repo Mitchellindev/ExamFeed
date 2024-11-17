@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:exam_feed/core/network/api_endpoint.dart';
 import 'package:exam_feed/core/network/dio_client.dart';
 import 'package:exam_feed/core/utils/logger.dart';
@@ -107,7 +108,7 @@ class AuthProvider extends DioClient {
     }
   }
 
-  Future verifyOtp({
+  Future<Map<String, dynamic>> verifyOtp({
     required String token,
   }) async {
     try {
@@ -124,14 +125,19 @@ class AuthProvider extends DioClient {
 
   Future<Map<String, dynamic>> resetPassword({
     required String password,
+    required String token,
   }) async {
     try {
-      final response = await http.post(
-        ApiRoutes.resetPassword,
-        data: {
-          "password": password,
-        },
-      );
+      final response = await http.post(ApiRoutes.resetPassword,
+          data: {
+            "password": password,
+          },
+          options: Options(
+            headers: {
+              "Authorization":
+                  "Bearer $token", // Use the token in the Authorization header
+            },
+          ));
       return response.data;
     } catch (e) {
       logger.e(e);

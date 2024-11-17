@@ -58,14 +58,6 @@ class AuthStateEmailNotVerified extends AuthState {
 
 class AuthStateOtpVerified extends AuthState {}
 
-class AuthStateOtpVerificationFailed extends AuthState {
-  final String error;
-  const AuthStateOtpVerificationFailed({required this.error});
-}
-
 class AuthStatePasswordResetSuccess extends AuthState {}
 
-class AuthStatePasswordResetFailed extends AuthState {
-  final String error;
-  const AuthStatePasswordResetFailed({required this.error});
-}
+class LogoutSuccess extends AuthState {}

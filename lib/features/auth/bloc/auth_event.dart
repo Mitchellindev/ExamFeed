@@ -53,7 +53,8 @@ class AuthEventVerifyOtp extends AuthEvent {
 
 class AuthEventResetPassword extends AuthEvent {
   final String password;
-  const AuthEventResetPassword({
-    required this.password,
-  });
+  final String token;
+  const AuthEventResetPassword({required this.password, required this.token});
 }
+
+class LogoutEvent extends AuthEvent {}

@@ -8,6 +8,7 @@ import 'package:exam_feed/core/utils/typedef.dart';
 import 'package:exam_feed/features/auth/data/models/auth_error.dart';
 import 'package:exam_feed/features/auth/data/models/auth_register_user.dart';
 import 'package:exam_feed/features/auth/data/models/auth_user.dart';
+import 'package:exam_feed/features/auth/data/models/otp_model.dart';
 import 'package:exam_feed/features/auth/data/providers/auth_provider.dart';
 import 'package:exam_feed/features/auth/data/providers/local_provider.dart';
 
@@ -134,11 +135,21 @@ class AuthRepository {
     }
   }
 
-  Future<Either<AuthError, bool>> verifyOtp(String otp) async {
+  Future<Either<AuthError, OtpVerificationModel>> verifyOtp(
+      {required String otp}) async {
     try {
       final response = await provider.verifyOtp(token: otp);
-      return response;
+
+      return right(OtpVerificationModel.fromJson(response));
+    } on DioException catch (e) {
+      return left(
+        AuthError(
+          errorMessage:
+              DioExceptionClass.handleStatusCode(e.response?.statusCode),
+        ),
+      );
     } catch (e) {
+      logger.e(e);
       return left(AuthError(errorMessage: e.toString()));
     }
   }
@@ -146,12 +157,14 @@ class AuthRepository {
   // Reset Password
   Future<Either<AuthError, bool>> resetPassword({
     required String password,
+    required String token,
   }) async {
     try {
       final response = await provider.resetPassword(
         password: password,
+        token: token,
       );
-      return response['message'] == 'Password reset successful'
+      return response['message'] == 'Password successfully updated'
           ? right(true)
           : left(AuthError(errorMessage: 'Password reset failed.'));
     } catch (e) {

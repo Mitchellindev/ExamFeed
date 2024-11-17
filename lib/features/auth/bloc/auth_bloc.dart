@@ -9,6 +9,8 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  // final AuthUserLocalDataSourceImpl localDataSource;
+
   final AuthRepository authRepo;
   AuthBloc({required this.authRepo}) : super(AuthInitial()) {
     on<AuthEventSignup>((event, emit) async {
@@ -69,10 +71,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // Handle OTP verification
     on<AuthEventVerifyOtp>((event, emit) async {
       emit(AuthStateIsLoading());
-      final result = await authRepo.verifyOtp(event.token);
+      final result = await authRepo.verifyOtp(otp: event.token);
       result.fold(
-        (error) =>
-            emit(AuthStateOtpVerificationFailed(error: error.errorMessage)),
+        (error) => emit(AuthStateError(authError: error)),
         (_) => emit(AuthStateOtpVerified()),
       );
     });
@@ -82,10 +83,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthStateIsLoading());
       final result = await authRepo.resetPassword(
         password: event.password,
+        token: event.token,
       );
       result.fold(
-        (error) =>
-            emit(AuthStatePasswordResetFailed(error: error.errorMessage)),
+        (error) => emit(AuthStateError(authError: error)),
         (_) => emit(AuthStatePasswordResetSuccess()),
       );
     });

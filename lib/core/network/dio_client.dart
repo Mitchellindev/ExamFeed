@@ -7,6 +7,8 @@ import 'package:exam_feed/core/utils/logger.dart';
 
 class DioClient {
   late Dio http;
+  DioClient._();
+  static final instance = DioClient._();
 
   DioClient() {
     http = Dio(BaseOptions(

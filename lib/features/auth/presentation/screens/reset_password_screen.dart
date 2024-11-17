@@ -35,6 +35,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final String token = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -108,7 +110,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         onPressed: () {
                           BlocProvider.of<AuthBloc>(context).add(
                             AuthEventResetPassword(
-                                password: confirmPassword ?? ''),
+                              password: confirmPassword ?? '',
+                              token: ModalRoute.of(context)!.settings.arguments
+                                  as String,
+                            ),
                           );
                         },
                         labelColor: AppColors.white,

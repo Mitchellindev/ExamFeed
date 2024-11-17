@@ -3,7 +3,11 @@ import 'package:exam_feed/config/router/routes.dart';
 import 'package:exam_feed/core/utils/app_constraints.dart';
 import 'package:exam_feed/features/auth/bloc/auth_bloc.dart';
 import 'package:exam_feed/features/auth/data/providers/auth_provider.dart';
+import 'package:exam_feed/features/auth/data/providers/local_provider.dart';
 import 'package:exam_feed/features/auth/data/repositories/auth_repo.dart';
+import 'package:exam_feed/features/home/bloc/exam_body_bloc.dart';
+import 'package:exam_feed/features/home/data/providers/provider.dart';
+import 'package:exam_feed/features/home/data/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,11 +35,24 @@ class _MyAppState extends State<MyApp> {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return BlocProvider(
-            create: (context) => AuthBloc(
-                authRepo: AuthRepository(
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => AuthBloc(
+                  authRepo: AuthRepository(
                     // localDataSource: AuthUserLocalDataSourceImpl(),
-                    provider: AuthProvider())),
+                    provider: AuthProvider(),
+                  ),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => ExamBodyBloc(
+                  examBodyRepository: ExamBodyRepository(
+                    examBodyProvider: ExamBodyProvider(),
+                  ),
+                ),
+              ),
+            ],
             child: MaterialApp(
               theme: ThemeData(
                 useMaterial3: true,
