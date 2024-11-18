@@ -1,14 +1,9 @@
-
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/features/auth/screens/onboarding.dart';
 import 'package:exam_feed/features/auth/screens/splashscreen.dart';
-import 'package:exam_feed/resources/colors.dart';
-import 'package:exam_feed/resources/resources.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -22,17 +17,28 @@ final router = GoRouter(
     FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
   ],
   routes: [
-     GoRoute(
-      path: AppPath.splash.goRoute,
-      name: AppPath.splash.path,
-      builder: (context, state) => SplashScreen(),
-    ),
+    GoRoute(
+        path: AppPath.splash.goRoute,
+        name: AppPath.splash.path,
+        builder: (context, state) => SplashScreen(),
+        routes: [
+          GoRoute(
+            path: AppPath.splash.onboardingScreen.goRoute,
+            name: AppPath.splash.onboardingScreen.path,
+            builder: (context, state) => Onboarding(),
+          ),
+          // GoRoute(
+          //   path: AppPath.splash.onboardingScreen.goRoute,
+          //   name: AppPath.splash.onboardingScreen.path,
+          //   builder: (context, state) => Onboarding(),
+          // ),
+        ]),
+
     // GoRoute(
     //   path: AppPath.auth.goRoute,
     //   // builder: (context, state) => const LoginScreen(),
     //   routes: [
-       
-       
+
     //   ],
     // ),
     // StatefulShellRoute.indexedStack(
@@ -46,7 +52,7 @@ final router = GoRouter(
     //         // GoRoute(
     //         //   path: AppPath.timeline.goRoute,
     //         //   builder: (context, state) => const TimelineScreen(),
-    //         //   routes: [ 
+    //         //   routes: [
     //         //   ],
     //         // ),
     //       ],
@@ -57,19 +63,19 @@ final router = GoRouter(
     //         //   path: AppPath.search.goRoute,
     //         //   builder: (context, state) => const SearchScreen(),
     //         //   routes: [
-               
+
     //         //   ],
     //         // ),
     //       ],
     //     ),
     //     StatefulShellBranch(
     //       routes: [
-            
+
     //       ],
     //     ),
     //     StatefulShellBranch(
     //       routes: [
-           
+
     //       ],
     //     ),
     //     StatefulShellBranch(
@@ -78,7 +84,7 @@ final router = GoRouter(
     //         //   path: AppPath.profile.goRoute,
     //         //   builder: (context, state) => const ProfileScreen(),
     //         //   routes: [
-             
+
     //         //   ],
     //         // ),
     //       ],

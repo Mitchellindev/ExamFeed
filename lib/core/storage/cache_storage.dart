@@ -34,4 +34,6 @@ class SharedPrefs {
   set email(String? value) {
     _sharedPrefs.setString('email', value ?? '');
   }
+
+
 }

@@ -127,14 +127,16 @@ class CustomOutlinedButtonWithIcon extends StatelessWidget {
       icon: loading ? null : SvgPicture.asset(icon, color: iconColor),
       label: loading ? loadingWidget : textWidget,
       iconAlignment: iconAlignment,
+
       style: buttonStyle ??
           OutlinedButton.styleFrom(
             minimumSize: Size(double.infinity, height ?? 56),
+            backgroundColor: AppColors.primaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             elevation: 0,
             side: BorderSide(
-              color: borderColor ?? AppColors.neutral400,
+              color: borderColor ?? AppColors.primaryColor,
             ),
           ),
     );
@@ -182,9 +184,76 @@ class CustomElevatedButtonWithIcon extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: loading ? null : onPressed,
       // ignore: deprecated_member_use
-      icon: loading ? null : SvgPicture.asset(icon, color: iconColor),
+      icon: loading
+          ? null
+          : Expanded(child: SvgPicture.asset(icon, color: iconColor)),
       label: loading ? loadingWidget : textWidget,
       iconAlignment: iconAlignment,
+
+      style: buttonStyle ??
+          ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primaryColor,
+            minimumSize: Size(double.infinity, height ?? 56),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            elevation: 0,
+            side: BorderSide(
+              color: borderColor ?? AppColors.neutral400,
+            ),
+          ),
+    );
+  }
+}
+
+class CustomOnboardingElevatedButtonWithIcon extends StatelessWidget {
+  const CustomOnboardingElevatedButtonWithIcon({
+    required this.text,
+    required this.icon,
+    this.onPressed,
+    this.loading = false,
+    this.iconAlignment = IconAlignment.start,
+    super.key,
+    this.customTextStyle,
+    this.buttonStyle,
+    this.height,
+    this.borderColor,
+    this.iconColor,
+  });
+
+  final String text;
+  final String icon;
+  final TextStyle? customTextStyle;
+  final ButtonStyle? buttonStyle;
+  final void Function()? onPressed;
+  final bool loading;
+  final IconAlignment iconAlignment;
+  final double? height;
+  final Color? borderColor;
+  final Color? iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    const loadingWidget = CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation(Colors.white),
+      strokeWidth: 2,
+    );
+    const textStyle = TextStyle(
+      fontSize: 16,
+      color: AppColors.skyWhite,
+    );
+
+    final textWidget = Text(text, style: customTextStyle ?? textStyle);
+    return ElevatedButton(
+      onPressed: loading ? null : onPressed,
+      // ignore: deprecated_member_use
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          loading ? loadingWidget : textWidget,
+          if (!loading) SvgPicture.asset(icon, color: iconColor),
+        ],
+      ),
       style: buttonStyle ??
           ElevatedButton.styleFrom(
             backgroundColor: AppColors.primaryColor,

@@ -4,7 +4,7 @@ class AppColors {
   static const skyWhite = Color(0xffffffff);
   static const background = Color(0xffF5F4F4);
   static const pureBlack = Color(0xff000000);
-  static const primaryColor = Color(0xff4534B8);
+  static const primaryColor = Color(0xff080357);
   static const primary80 = Color(0xff6A5DC6);
   static const primaryLight = Color(0xff6B50DA);
   static const error = Color(0xffED5556);
@@ -26,4 +26,5 @@ class AppColors {
   static const dragColor = Color(0xffE0E0E0);
   static const neutral5 = Color(0xffF2F4F5);
   static const neutral0 = Color(0xffAFAFAF);
+  static const grey = Color(0xffD9D9D9);
 }
