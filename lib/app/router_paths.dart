@@ -23,6 +23,10 @@ class AuthPath extends Path<AuthPath> {
   // Path get login => Path('login', parent: this);
   Path get signup => Path('signup', parent: this);
   Path get login => Path('login', parent: this);
+  Path get otp => Path('otp', parent: this);
+  Path get verificationSuccess => Path('verification-success', parent: this);
+  Path get forgetPassword => Path('forget-password', parent: this);
+  Path get resetPassword => Path('reset-password', parent: this);
  
 }
 

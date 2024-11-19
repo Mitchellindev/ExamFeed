@@ -5,7 +5,10 @@ import 'package:exam_feed/resources/resources.dart';
 
 void main() {
   test('svg_icons assets test', () {
+    expect(File(SvgIcons.circle).existsSync(), isTrue);
+    expect(File(SvgIcons.arrowBack).existsSync(), isTrue);
     expect(File(SvgIcons.arrowRight).existsSync(), isTrue);
+    expect(File(SvgIcons.back).existsSync(), isTrue);
     expect(File(SvgIcons.googleIcon).existsSync(), isTrue);
   });
 }

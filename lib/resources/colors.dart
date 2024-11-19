@@ -21,7 +21,7 @@ class AppColors {
   static const neutral600 = Color(0xff8F8E93);
   static const neutral400 = Color(0xffD9D9DB);
   static const neutral300 = Color(0xffF0F0F1);
-  static const neutral200 = Color(0xffF5F5F5);
+  static const neutral200 = Color(0xffD9D9D9);
   static const neutral10 = Color(0xffECEBF8);
   static const dragColor = Color(0xffE0E0E0);
   static const neutral5 = Color(0xffF2F4F5);

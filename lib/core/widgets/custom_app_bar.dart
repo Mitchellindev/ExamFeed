@@ -1,6 +1,7 @@
 import 'package:exam_feed/app/router.dart';
 import 'package:exam_feed/core/widgets/animated_widgets.dart';
 import 'package:exam_feed/resources/colors.dart';
+import 'package:exam_feed/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +15,9 @@ class CustomAppBar extends AppBar {
               onTap: () => rootNavigatorKey.currentContext!.pop(),
               child: CircleAvatar(
                 backgroundColor: AppColors.neutral200,
-                child: SvgPicture.asset('SvgIcons.back,'),
+                child: SvgPicture.asset(
+                  SvgIcons.back,
+                ),
               ),
             ),
           ),

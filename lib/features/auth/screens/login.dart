@@ -106,7 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Spacer(),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(AppPath.auth.forgetPassword.path);
+                    },
                     child: Text(
                       'Forgot password?',
                       style: TextStyle(color: AppColors.primaryColor),

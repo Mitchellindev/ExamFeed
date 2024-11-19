@@ -1,8 +1,12 @@
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/features/auth/screens/forget_password.dart';
 import 'package:exam_feed/features/auth/screens/login.dart';
 import 'package:exam_feed/features/auth/screens/onboarding.dart';
+import 'package:exam_feed/features/auth/screens/otp.dart';
+import 'package:exam_feed/features/auth/screens/reset_password.dart';
 import 'package:exam_feed/features/auth/screens/signup.dart';
 import 'package:exam_feed/features/auth/screens/splashscreen.dart';
+import 'package:exam_feed/features/auth/screens/verification_success.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +49,30 @@ final router = GoRouter(
           name: AppPath.auth.login.path,
           builder: (context, state) => LoginScreen(),
         ),
-        
+        GoRoute(
+          path: AppPath.auth.otp.goRoute,
+          name: AppPath.auth.otp.path,
+          builder: (context, state) => OtpScreen(
+            isReset: state.uri.queryParameters['isReset'] == 'false',
+          ),
+        ),
+        GoRoute(
+          path: AppPath.auth.verificationSuccess.goRoute,
+          name: AppPath.auth.verificationSuccess.path,
+          builder: (context, state) => VerificationSuccess(
+            isReset: state.uri.queryParameters['isReset'] == 'false',
+          ),
+        ),
+        GoRoute(
+          path: AppPath.auth.forgetPassword.goRoute,
+          name: AppPath.auth.forgetPassword.path,
+          builder: (context, state) => ForgatPassword(),
+        ),
+        GoRoute(
+          path: AppPath.auth.resetPassword.goRoute,
+          name: AppPath.auth.resetPassword.path,
+          builder: (context, state) => ResetPassword(),
+        ),
       ],
     ),
     // StatefulShellRoute.indexedStack(
