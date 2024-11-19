@@ -1,4 +1,4 @@
-package com.example.exam_feed
+package com.examfeed.examfeed
 
 import io.flutter.embedding.android.FlutterActivity
 
