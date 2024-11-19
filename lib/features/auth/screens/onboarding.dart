@@ -1,3 +1,4 @@
+import 'package:exam_feed/app/router_paths.dart';
 import 'package:exam_feed/app/service_locator.dart';
 import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/core/utils/import.dart';
@@ -135,7 +136,9 @@ class _OnboardingState extends State<Onboarding> {
                         )
                       : CustomElevatedButton(
                           text: 'Get Started',
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pushReplacement(AppPath.auth.path);
+                          },
                         )
                 ],
               ),

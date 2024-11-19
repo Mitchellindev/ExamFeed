@@ -184,9 +184,7 @@ class CustomElevatedButtonWithIcon extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: loading ? null : onPressed,
       // ignore: deprecated_member_use
-      icon: loading
-          ? null
-          : Expanded(child: SvgPicture.asset(icon, color: iconColor)),
+      icon: loading ? null : SvgPicture.asset(icon, color: iconColor),
       label: loading ? loadingWidget : textWidget,
       iconAlignment: iconAlignment,
 

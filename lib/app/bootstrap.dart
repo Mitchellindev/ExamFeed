@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:exam_feed/app/service_locator.dart';
 import 'package:exam_feed/core/storage/cache_storage.dart';
+import 'package:exam_feed/env/env.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -70,6 +71,9 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
 
 Future<void> bootstrap(
   FutureOr<Widget> Function() builder,
+    {
+  required AppEnvironment environment,
+}
 ) async {
   try {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -83,7 +87,7 @@ Future<void> bootstrap(
 
     await notificationPlugin.initialize(initializationSettings);
     await Firebase.initializeApp();
-    await setupLocator();
+    await setupLocator(environment: environment);
     await locator.get<SharedPrefs>().init();
 
     await FirebaseMessaging.instance.requestPermission(provisional: true);

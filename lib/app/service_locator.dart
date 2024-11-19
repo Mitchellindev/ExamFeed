@@ -1,17 +1,24 @@
-
 import 'package:exam_feed/core/api/api_helper.dart';
 import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/env/env.dart';
+import 'package:exam_feed/features/auth/repository/auth_repository.dart';
+import 'package:exam_feed/features/auth/repository/auth_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:twilio_flutter/twilio_flutter.dart';
 
 GetIt locator = GetIt.instance;
 
-Future<void> setupLocator() async {
+Future<void> setupLocator({
+  required AppEnvironment environment,
+}) async {
   locator
+    ..registerLazySingleton<AppEnvironment>(() => environment)
     ..registerLazySingleton<SharedPrefs>(SharedPrefs.new)
     ..registerLazySingleton<ApiHandler>(
       () => ApiHandler(baseUrl: Env().baseUrl),
+    )
+    ..registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator.get<ApiHandler>()),
     );
   // ..registerLazySingleton<TimelineRepository>(
   //   () => TimelineRepositoryImpl(locator.get<ApiHandler>()),
@@ -19,9 +26,7 @@ Future<void> setupLocator() async {
   // ..registerLazySingleton<ProfileRepository>(
   //   () => ProfileRepositoryImpl(locator.get<ApiHandler>()),
   // )
-  // ..registerLazySingleton<AuthRepository>(
-  //   () => AuthRepositoryImpl(locator.get<ApiHandler>()),
-  // )
+
   // ..registerLazySingleton<SearchRepository>(
   //   () => SearchRepositoryImpl(locator.get<ApiHandler>()),
   // );

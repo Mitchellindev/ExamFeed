@@ -1,4 +1,6 @@
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/app/service_locator.dart';
+import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -37,7 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
             Images.logo,
           ).animate(
             onComplete: (controller) {
-              context.pushReplacement(AppPath.splash.onboardingScreen.path);
+              locator.get<SharedPrefs>().firstTime
+                  ? context
+                      .pushReplacement(AppPath.splash.onboardingScreen.path)
+                  : context.pushReplacement(AppPath.auth.login.path);
             },
           ).slide(
             duration: Duration(milliseconds: 1000),

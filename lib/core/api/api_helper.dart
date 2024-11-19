@@ -12,9 +12,8 @@ import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/env/env.dart';
 import 'package:firebase_performance_dio/firebase_performance_dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 part 'api_helper.freezed.dart';
 // part 'api_helper.g.dart';
@@ -50,7 +49,8 @@ class ApiSuccess<T> {
       message: (json['message']) as String?,
       status: json['status'] as bool?,
       accessToken: json['access_token'] as String?,
-      data: fromJson?.call(json['data'] as Map<String, dynamic>),
+      data:fromJson?.call(json),
+      // data: fromJson?.call(json['data'] as Map<String, dynamic>),
     );
   }
 
@@ -283,7 +283,8 @@ class ApiHandler {
           data: errorData,
           // ignore: avoid_bool_literals_in_conditional_expressions
           success: (e.response?.data != null && e.response?.data is Map)
-              ? ((e.response?.data as Map)['success']) as bool
+          ? true
+              // ? ((e.response?.data as Map)['success'] ) as bool
               : false,
           detail: (e.response?.data != null && e.response?.data is Map)
               ? ((e.response?.data as Map)['detail']) as String?

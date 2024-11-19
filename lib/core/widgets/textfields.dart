@@ -1,4 +1,3 @@
-
 import 'package:exam_feed/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +8,7 @@ class PrimaryInputField extends TextFormField {
     required BuildContext context,
     super.key,
     String? hintText,
+    String? label,
     String? Function(String?)? validator,
     String? prefixIcon,
     int? maxLines,
@@ -16,11 +16,12 @@ class PrimaryInputField extends TextFormField {
     super.onChanged,
     super.textCapitalization,
     super.inputFormatters,
-    super.obscureText ,
+    super.obscureText,
     bool required = true,
   }) : super(
           decoration: InputDecoration(
             hintText: hintText,
+            label: Text(label ?? ''),
             prefixIcon: prefixIcon != null
                 ? Padding(
                     padding: const EdgeInsets.only(
@@ -84,6 +85,7 @@ class PrimaryInputField extends TextFormField {
           maxLines: maxLines ?? 1,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textInputAction: TextInputAction.next,
+          
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           // onChanged: onChanged,
           validator: !required
@@ -113,8 +115,6 @@ class BigInputField extends StatelessWidget {
     );
   }
 }
-
-
 
 // class DropDownInputField<T extends Object> extends StatelessWidget {
 //   const DropDownInputField({

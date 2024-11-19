@@ -1,4 +1,5 @@
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/features/auth/screens/login.dart';
 import 'package:exam_feed/features/auth/screens/onboarding.dart';
 import 'package:exam_feed/features/auth/screens/signup.dart';
 import 'package:exam_feed/features/auth/screens/splashscreen.dart';
@@ -39,7 +40,12 @@ final router = GoRouter(
       path: AppPath.auth.goRoute,
       builder: (context, state) => const SignUpScreen(),
       routes: [
-
+        GoRoute(
+          path: AppPath.auth.login.goRoute,
+          name: AppPath.auth.login.path,
+          builder: (context, state) => LoginScreen(),
+        ),
+        
       ],
     ),
     // StatefulShellRoute.indexedStack(
