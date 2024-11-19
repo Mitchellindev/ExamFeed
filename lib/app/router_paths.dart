@@ -21,12 +21,9 @@ class AuthPath extends Path<AuthPath> {
   AuthPath() : super('/auth');
 
   // Path get login => Path('login', parent: this);
-  Path get register => Path('register', parent: this);
-  Path get otp => Path('otp', parent: this);
-  Path get completeRegistration => Path('complete-registration', parent: this);
-
-  Path get recoverAccount => Path('recover-account', parent: this);
-  Path get setNewPassword => Path('set-new-password', parent: this);
+  Path get signup => Path('signup', parent: this);
+  Path get login => Path('login', parent: this);
+ 
 }
 
 class TimelinePath extends Path<TimelinePath> {

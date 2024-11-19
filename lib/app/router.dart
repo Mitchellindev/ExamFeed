@@ -1,5 +1,6 @@
 import 'package:exam_feed/app/router_paths.dart';
 import 'package:exam_feed/features/auth/screens/onboarding.dart';
+import 'package:exam_feed/features/auth/screens/signup.dart';
 import 'package:exam_feed/features/auth/screens/splashscreen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
@@ -34,13 +35,13 @@ final router = GoRouter(
           // ),
         ]),
 
-    // GoRoute(
-    //   path: AppPath.auth.goRoute,
-    //   // builder: (context, state) => const LoginScreen(),
-    //   routes: [
+    GoRoute(
+      path: AppPath.auth.goRoute,
+      builder: (context, state) => const SignUpScreen(),
+      routes: [
 
-    //   ],
-    // ),
+      ],
+    ),
     // StatefulShellRoute.indexedStack(
     //   builder: (context, state, navigationShell) =>
     //       ScaffoldWithNestedNavigation(
