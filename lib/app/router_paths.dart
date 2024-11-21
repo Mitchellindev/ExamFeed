@@ -3,11 +3,11 @@ import 'package:go_router_paths/go_router_paths.dart';
 class AppPath {
   static final splash = SplashPath();
   static final auth = AuthPath();
-  static final timeline = TimelinePath();
+  static final dashboard = DashboardPath();
   static final profile = ProfilePath();
   static final messaging = MessagingPath();
-  static final search = SearchPath();
-  static final communities = CommunitiesPath();
+  static final feed = FeedsPath();
+  static final discover = DiscoverPath();
 }
 
 class SplashPath extends Path<SplashPath> {
@@ -30,50 +30,31 @@ class AuthPath extends Path<AuthPath> {
  
 }
 
-class TimelinePath extends Path<TimelinePath> {
-  TimelinePath() : super('/timeline');
+class DashboardPath extends Path<DashboardPath> {
+  DashboardPath() : super('/dashboard');
 
-  Path get createPost => Path('create-post', parent: this);
-  Path get notifications => Path('notifications', parent: this);
-  Path get postDetail => Path('post-detail', parent: this);
-  Path get videoPreview => Path('video-preview', parent: this);
-  Path get imagePreview => Path('image-preview', parent: this);
-  Path get audioPreview => Path('audio-preview', parent: this);
+  // Path get createPost => Path('create-post', parent: this);
+  // Path get notifications => Path('notifications', parent: this);
+  // Path get postDetail => Path('post-detail', parent: this);
+  // Path get videoPreview => Path('video-preview', parent: this);
+  // Path get imagePreview => Path('image-preview', parent: this);
+  // Path get audioPreview => Path('audio-preview', parent: this);
 }
 
 class ProfilePath extends Path<ProfilePath> {
   ProfilePath() : super('/profile');
-  Path get editProfile => Path('edit-profile', parent: this);
-  Path get aboutYou => Path('about-you', parent: this);
-  Path get basicInfo => Path('basic-info', parent: this);
-  Path get contactInfo => Path('contact-info', parent: this);
-  Path get profilePic => Path('profile-pic', parent: this);
-  Path get settings => Path('settings', parent: this);
-  Path get about => Path('about', parent: this);
-  Path get privacySafety => Path('privacy-safety', parent: this);
-  Path get changePassword => Path('change-password', parent: this);
-  Path get deleteAccount => Path('delete-account', parent: this);
-  Path get notificationChannel => Path('notification-channel', parent: this);
-  Path get connectAccounts => Path('connect-accounts', parent: this);
-  Path get twoStepVerification => Path('two-step-verification', parent: this);
-  Path get publicProfile => Path('public-profile', parent: this);
-  Path get publicAboutProfile => Path('public-about-profile', parent: this);
 
-  Path get otherUserProfile => Path('other-user-profile', parent: this);
-  Path get otherUserAbout => Path('other-user-about', parent: this);
 }
 
 class MessagingPath extends Path<MessagingPath> {
   MessagingPath() : super('/messaging');
 }
 
-class SearchPath extends Path<SearchPath> {
-  SearchPath() : super('/search');
+class FeedsPath extends Path<FeedsPath> {
+  FeedsPath() : super('/feeds');
 
-  Path get discoverPeople => Path('discover-people', parent: this);
-  Path get discoverCommunities => Path('discover-communities', parent: this);
 }
 
-class CommunitiesPath extends Path<CommunitiesPath> {
-  CommunitiesPath() : super('/communities');
+class DiscoverPath extends Path<DiscoverPath> {
+  DiscoverPath() : super('/discover');
 }

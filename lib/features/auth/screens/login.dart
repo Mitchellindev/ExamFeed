@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             password: _passwordController.text,
             onSuccess: () {
               context.showSuccessMessage(message: 'Login successful');
-              // context.router.replaceNamed(RoutePaths.login);
+              context.pushReplacement(AppPath.dashboard.path);
             },
             onError: (error) {
               context.showErrorMessage(message: error.message);
