@@ -49,7 +49,7 @@ class ApiSuccess<T> {
       message: (json['message']) as String?,
       status: json['status'] as bool?,
       accessToken: json['access_token'] as String?,
-      data:fromJson?.call(json),
+      data: fromJson?.call(json),
       // data: fromJson?.call(json['data'] as Map<String, dynamic>),
     );
   }
@@ -283,7 +283,7 @@ class ApiHandler {
           data: errorData,
           // ignore: avoid_bool_literals_in_conditional_expressions
           success: (e.response?.data != null && e.response?.data is Map)
-          ? true
+              ? true
               // ? ((e.response?.data as Map)['success'] ) as bool
               : false,
           detail: (e.response?.data != null && e.response?.data is Map)
@@ -293,7 +293,9 @@ class ApiHandler {
       );
 
       return error;
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
+      log('Error: $e', name: 'stackError');
       log('Error: $e', name: 'DioError');
       // log('StackTrace: $s', name: 'DioError');
       final error = ApiResponse<T>.error(
@@ -575,11 +577,12 @@ class DuduziliEncryptionInterceptor extends dio.InterceptorsWrapper {
     try {
       if (response.data != null) {
         if (response.data['data'] is List) {
-          response.data['data'] =response.data['data'];
+          response.data['data'] = response.data['data'];
         } else {
           if (response.data is Map<String, dynamic>) {
             if ((response.data as Map<String, dynamic>).containsKey('data')) {
-              response.data['data'] = (response.data['data'] as Map<String, dynamic>?);
+              response.data['data'] =
+                  (response.data['data'] as Map<String, dynamic>?);
             }
           }
         }
@@ -591,10 +594,3 @@ class DuduziliEncryptionInterceptor extends dio.InterceptorsWrapper {
     }
   }
 }
-
-
-
-
-
-
-

@@ -1,4 +1,5 @@
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/app/service_locator.dart';
 import 'package:exam_feed/core/utils/import.dart';
 import 'package:exam_feed/core/utils/spacer.dart';
 import 'package:exam_feed/core/utils/toast_util.dart';
@@ -6,6 +7,7 @@ import 'package:exam_feed/core/utils/validators.dart';
 import 'package:exam_feed/core/widgets/buttons.dart';
 import 'package:exam_feed/core/widgets/textfields.dart';
 import 'package:exam_feed/features/auth/provider/auth_provider.dart';
+import 'package:exam_feed/features/dashboard/provider/dashboard_provider.dart';
 import 'package:exam_feed/resources/colors.dart';
 import 'package:exam_feed/resources/resources.dart';
 import 'package:flutter/gestures.dart';
@@ -24,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    locator.setApiHandlerToken(
+        '0xbS4TX1Wy3SwE2dNRHVyokJF5WwUNs3qOL6HFbMCra9c0c07f');
     super.initState();
   }
 
@@ -51,9 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _onTest() {
+    context.read<DashboardProvider>().orders();
+  }
+
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthenticationProvider>();
+    final dash = context.watch<DashboardProvider>();
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -107,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      context.push(AppPath.auth.forgetPassword.path);
+                      print(dash.pagingController.itemList!.length);
+                      // context.push(AppPath.auth.forgetPassword.path);
                     },
                     child: Text(
                       'Forgot password?',
@@ -167,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 YMargin(33),
                 CustomElevatedButtonWithIcon(
                   text: 'Continue with Google',
-                  onPressed: () {},
+                  onPressed: _onTest,
                   icon: SvgIcons.googleIcon,
                 )
               ],

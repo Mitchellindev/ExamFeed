@@ -1,23 +1,25 @@
 class PaginationResponse<T> {
   PaginationResponse();
   factory PaginationResponse.fromJson(
-    Map<String, dynamic> json,
+    Map<dynamic, dynamic> json,
     T Function(Object? json) fromJsonT,
   ) {
     return PaginationResponse<T>()
-      ..count = json['count'] as num
-      ..next = json['next'] as String
-      ..previous = json['previous'] as String
-      ..results =
-          (json['results'] as List<Object?>).map((e) => fromJsonT(e)).toList();
+      ..count = json['data']['total'] as num
+      // ..next = json['data']['next_page_url'] as String
+      // ..previous = json['data']['prev_page_url'] as String
+      ..results = (json['data']['data'] as List<Object?>)
+          .map((e) => fromJsonT(e))
+          .toList();
   }
   late num count;
-  late String next;
-  late String previous;
+  // late String next;
+  // late String previous;
   late List<T> results;
 
-  @override
-  String toString() {
-    return '''PaginationModel<$T>(count: $count, next: $next, previous: $previous, results: $results)''';
-  }
+// next: $next, previous: $previous,
+  // @override
+  // String toString() {
+  //   return '''PaginationModel<$T>(count: $count,  results: $results)''';
+  // }
 }

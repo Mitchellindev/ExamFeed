@@ -3,6 +3,8 @@ import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/env/env.dart';
 import 'package:exam_feed/features/auth/repository/auth_repository.dart';
 import 'package:exam_feed/features/auth/repository/auth_repository_impl.dart';
+import 'package:exam_feed/features/dashboard/repository/dashboard_repository.dart';
+import 'package:exam_feed/features/dashboard/repository/dashboard_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 // import 'package:twilio_flutter/twilio_flutter.dart';
 
@@ -16,6 +18,9 @@ Future<void> setupLocator({
     ..registerLazySingleton<SharedPrefs>(SharedPrefs.new)
     ..registerLazySingleton<ApiHandler>(
       () => ApiHandler(baseUrl: Env().baseUrl),
+    )
+     ..registerLazySingleton<DashboardRepository>(
+      () => DashboardRepositoryImpl(locator.get<ApiHandler>()),
     )
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(locator.get<ApiHandler>()),
