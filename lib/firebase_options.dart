@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDM_apGn60dSPYNaY8E4p7_XWeeewl03Dw',
-    appId: '1:692075511216:android:e5ed1123502e72e655aa75',
+    appId: '1:692075511216:android:c268f8bf21b2522155aa75',
     messagingSenderId: '692075511216',
     projectId: 'examfeed-59ab3',
     storageBucket: 'examfeed-59ab3.firebasestorage.app',
@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'examfeed-59ab3.firebasestorage.app',
     iosBundleId: 'com.example.examFeed',
   );
+
 }
