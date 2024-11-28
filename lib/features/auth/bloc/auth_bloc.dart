@@ -9,6 +9,8 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  // final AuthUserLocalDataSourceImpl localDataSource;
+
   final AuthRepository authRepo;
   AuthBloc({required this.authRepo}) : super(AuthInitial()) {
     on<AuthEventSignup>((event, emit) async {
@@ -23,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (AuthRegisterUser authUser) =>
               emit(AuthStateIsRegistered(user: authUser)));
     });
+
     on<AuthEventLogin>((event, emit) async {
       emit(AuthStateIsLoading());
       final res = await authRepo.login(
@@ -31,7 +34,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       res.fold(
           (AuthError authError) => emit(AuthStateError(authError: authError)),
-          (AuthUser authUser) => emit(AuthStateIsLoggedIn(user: authUser)));
+          (AuthUser authUser) {
+        emit(AuthStateIsLoggedIn(user: authUser));
+      });
+    });
+
+    on<AuthEventForgetPassword>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final result = await authRepo.forgotPassword(email: event.email);
+      result.fold(
+        (AuthError error) =>
+            emit(AuthStateForgetFailure(error: error.errorMessage)),
+        (_) => emit(AuthStateForgetSuccess()),
+      );
+    });
+
+    on<AuthEventGoogleSignup>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final res = await authRepo.registerUserWithGoogle();
+      res.fold(
+        (AuthError authError) => emit(AuthStateError(authError: authError)),
+        (AuthRegisterUser authUser) =>
+            emit(AuthStateIsRegistered(user: authUser)),
+      );
+    });
+
+    on<AuthEventVerifyEmail>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final result = await authRepo.verifyEmail(event.token);
+      result.fold(
+        (AuthError authError) => emit(AuthStateError(authError: authError)),
+        (success) => emit(AuthStateEmailVerified()),
+      );
+    });
+
+    // Handle OTP verification
+    on<AuthEventVerifyOtp>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final result = await authRepo.verifyOtp(otp: event.token);
+      result.fold(
+        (error) => emit(AuthStateError(authError: error)),
+        (_) => emit(AuthStateOtpVerified()),
+      );
+    });
+
+    // Handle Password Reset
+    on<AuthEventResetPassword>((event, emit) async {
+      emit(AuthStateIsLoading());
+      final result = await authRepo.resetPassword(
+        password: event.password,
+        token: event.token,
+      );
+      result.fold(
+        (error) => emit(AuthStateError(authError: error)),
+        (_) => emit(AuthStatePasswordResetSuccess()),
+      );
     });
   }
 }

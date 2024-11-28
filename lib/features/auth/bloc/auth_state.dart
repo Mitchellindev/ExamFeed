@@ -41,21 +41,23 @@ class AuthStateIsRegistered extends AuthState {
   });
 }
 
-// class AuthStateEmailVerificationLinkSent extends AuthState {
-//   const AuthStateEmailVerificationLinkSent();
-// }
+class AuthStateForgetSuccess extends AuthState {}
 
-// class AuthStatePasswordResetSent extends AuthState {
-//   const AuthStatePasswordResetSent();
-// }
+class AuthStateForgetFailure extends AuthState {
+  final String error;
 
+  const AuthStateForgetFailure({required this.error});
+}
 
+class AuthStateEmailVerified extends AuthState {}
 
-// class AuthStateBiometricsNotEnabled extends AuthState {}
+class AuthStateEmailNotVerified extends AuthState {
+  final String message;
+  const AuthStateEmailNotVerified({required this.message});
+}
 
-// class AuthStateBiometricsError extends AuthState {
-//   final LocalAuthError error;
-//   const AuthStateBiometricsError({
-//     required this.error,
-//   });
-// }
+class AuthStateOtpVerified extends AuthState {}
+
+class AuthStatePasswordResetSuccess extends AuthState {}
+
+class LogoutSuccess extends AuthState {}

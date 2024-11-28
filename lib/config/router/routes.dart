@@ -5,6 +5,7 @@ class Routes {
   static const String forgotPassword = '/forgotPassword';
   static const String otp = '/otp';
   static const String resetPassword = '/resetPassword';
+  static const String verifyEmail = '/verifyEmail';
   static const String home = '/home';
   static const String featuredSubjects = '/featuredSubjects';
   static const String changeNameAndGmail = '/changeNameAndGmail';

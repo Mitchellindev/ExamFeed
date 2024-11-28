@@ -5,6 +5,7 @@ import 'package:exam_feed/core/widgets/icon_bottom.dart';
 import 'package:exam_feed/core/widgets/input_field_widget.dart';
 import 'package:exam_feed/core/widgets/loading_widget.dart';
 import 'package:exam_feed/core/widgets/primary_button.dart';
+import 'package:exam_feed/core/widgets/snackbar.dart';
 import 'package:exam_feed/core/widgets/text_widget.dart';
 import 'package:exam_feed/features/auth/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -127,13 +128,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 70.h),
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    // if (state is AuthStateError) {
-                    //   InfoSnackBar.showErrorSnackBar(
-                    //       context, state.authError.errorMessage);
-                    // }
-                    // if (state is AuthStateIsLoggedIn) {
-                    //   Navigator.popAndPushNamed(context, Routes.home);
-                    // }
+                    if (state is AuthStateError) {
+                      InfoSnackBar.showErrorSnackBar(
+                          context, state.authError.errorMessage);
+                    }
+                    if (state is AuthStateIsLoggedIn) {
+                      Navigator.popAndPushNamed(context, Routes.home);
+                    }
+                    if (state is AuthStateEmailNotVerified) {
+                      InfoSnackBar.showErrorSnackBar(context, state.message);
+                    }
                   },
                   builder: (context, state) {
                     return state is AuthStateIsLoading
@@ -141,12 +145,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         : PrimaryButton(
                             label: "Sign In",
                             onPressed: () {
-                              Navigator.pushNamed(context, Routes.home);
-                              // context.read<AuthBloc>().add(
-                              //       AuthEventLogin(
-                              //           email: email ?? '',
-                              //           password: password ?? ''),
-                              //     );
+                              context.read<AuthBloc>().add(
+                                    AuthEventLogin(
+                                        email: email ?? '',
+                                        password: password ?? ''),
+                                  );
                             },
                             isEnabled: true,
                             labelColor: AppColors.white,

@@ -1,16 +1,27 @@
 import 'package:exam_feed/config/router/routes.dart';
 import 'package:exam_feed/core/constants/app_colors.dart';
 import 'package:exam_feed/core/widgets/text_widget.dart';
+import 'package:exam_feed/features/home/bloc/exam_body_bloc.dart';
+import 'package:exam_feed/features/home/bloc/exam_body_event.dart';
 import 'package:exam_feed/features/home/presentation/widgets/book_cover_widget.dart';
 import 'package:exam_feed/features/home/presentation/widgets/featured_subject_widget.dart';
-import 'package:exam_feed/features/home/presentation/widgets/past_question_card_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    context.read<ExamBodyBloc>().add(LoadExamBodyEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,25 +165,45 @@ class HomeScreen extends StatelessWidget {
                     color: AppColors.primary,
                   ),
                   SizedBox(height: 10.h),
-                  GridView.count(
-                      childAspectRatio: 1.3,
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 18.w,
-                      children: const [
-                        PastQuestionCardWidget(
-                          label: 'View all available WAEC Past questions here',
-                        ),
-                        PastQuestionCardWidget(
-                          label: 'View all available WAEC Past questions here',
-                        ),
-                        PastQuestionCardWidget(
-                          label: 'View all available WAEC Past questions here',
-                        ),
-                        PastQuestionCardWidget(
-                          label: 'View all available WAEC Past questions here',
-                        ),
-                      ])
+                  // BlocConsumer<ExamBodyBloc, ExamBodyState>(
+                  //   listener: (context, state) {
+                  //     if (state is ExamBodyStateError) {
+                  //       return InfoSnackBar.showErrorSnackBar(
+                  //           context, state.errorMessage.toString());
+                  //     }
+                  //   },
+                  //   builder: (context, state) {
+                  //     if (state is ExamBodyStateIsLoading) {
+                  //       return const LoadingWidget();
+                  //     } else if (state is ExamBodyStateIsLoaded) {
+                  //       return GridView.builder(
+                  //         shrinkWrap: true,
+                  //         gridDelegate:
+                  //             SliverGridDelegateWithFixedCrossAxisCount(
+                  //           crossAxisCount: 2,
+                  //           crossAxisSpacing: 18.w,
+                  //           childAspectRatio: 1.3,
+                  //         ),
+                  //         itemCount: state.examBodies as list,
+                  //         itemBuilder: (BuildContext context, int index) {
+                  //           final examBody = state.examBodies[index];
+                  //           return PastQuestionCardWidget(
+                  //             label:
+                  //                 'View all available ${examBody.name} Past questions here',
+                  //             onTap: () {
+                  //               context.read<ExamBodyBloc>().add(
+                  //                     SelectExamBody(
+                  //                       examBodyId: examBody.id.toString(),
+                  //                     ),
+                  //                   );
+                  //             },
+                  //           );
+                  //         },
+                  //       );
+                  //     }
+                  //     return Container();
+                  //   },
+                  // )
                 ],
               ),
             )

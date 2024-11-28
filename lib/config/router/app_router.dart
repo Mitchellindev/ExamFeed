@@ -4,6 +4,7 @@ import 'package:exam_feed/features/auth/presentation/screens/login_screen.dart';
 import 'package:exam_feed/features/auth/presentation/screens/otp_screen.dart';
 import 'package:exam_feed/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:exam_feed/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:exam_feed/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:exam_feed/features/home/presentation/screens/bottom_nav_screen.dart';
 import 'package:exam_feed/features/profile/presentation/screens/change_name_and_gmail_screen.dart';
 import 'package:exam_feed/features/home/presentation/screens/featured_subject_screen.dart';
@@ -22,6 +23,10 @@ class AppRouter {
       case Routes.signUp:
         return MaterialPageRoute(
           builder: (_) => const SignUpScreen(),
+        );
+      case Routes.verifyEmail:
+        return MaterialPageRoute(
+          builder: (_) => const VerifyEmailScreen(),
         );
       case Routes.login:
         return MaterialPageRoute(
