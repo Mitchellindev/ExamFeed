@@ -57,6 +57,7 @@ class PrimaryInputField extends TextFormField {
                 width: 0.8,
               ),
             ),
+            
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
@@ -85,6 +86,7 @@ class PrimaryInputField extends TextFormField {
           maxLines: maxLines ?? 1,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textInputAction: TextInputAction.next,
+          
           
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           // onChanged: onChanged,

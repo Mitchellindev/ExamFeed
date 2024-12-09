@@ -20,4 +20,9 @@ abstract class AuthRepository {
     required String password,
   });
   Future<ApiResponse<LoginResponse>> emailVerification();
+  Future<ApiResponse<void>> getProfile();
+  Future<ApiResponse<void>> updateProfile({
+    required String email,
+    required String name,
+  });
 }

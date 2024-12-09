@@ -10,8 +10,19 @@ import 'package:exam_feed/features/auth/screens/signup.dart';
 import 'package:exam_feed/features/auth/screens/splashscreen.dart';
 import 'package:exam_feed/features/auth/screens/verification_success.dart';
 import 'package:exam_feed/features/chat/screens/chat.dart';
+import 'package:exam_feed/features/chat/screens/messages.dart';
+import 'package:exam_feed/features/dashboard/screens/allsubjects.dart';
+import 'package:exam_feed/features/dashboard/screens/exam_summary.dart';
 import 'package:exam_feed/features/dashboard/screens/home.dart';
+import 'package:exam_feed/features/dashboard/screens/practice_question.dart';
+import 'package:exam_feed/features/dashboard/screens/study_question.dart';
+import 'package:exam_feed/features/dashboard/screens/subject.dart';
+import 'package:exam_feed/features/dashboard/screens/year_selection.dart';
 import 'package:exam_feed/features/feed/screens/feed.dart';
+import 'package:exam_feed/features/feed/screens/open_feed.dart';
+import 'package:exam_feed/features/profile/screens/bookmarked.dart';
+import 'package:exam_feed/features/profile/screens/change_password.dart';
+import 'package:exam_feed/features/profile/screens/edit_profile.dart';
 import 'package:exam_feed/features/profile/screens/profile.dart';
 import 'package:exam_feed/resources/colors.dart';
 import 'package:exam_feed/resources/resources.dart';
@@ -46,6 +57,7 @@ final router = GoRouter(
         ]),
     GoRoute(
       path: AppPath.auth.goRoute,
+      name: AppPath.auth.path,
       builder: (context, state) => const SignUpScreen(),
       routes: [
         GoRoute(
@@ -89,8 +101,58 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppPath.dashboard.goRoute,
+              name: AppPath.dashboard.path,
               builder: (context, state) => const HomeScreen(),
-              routes: [],
+              routes: [
+                GoRoute(
+                  path: AppPath.dashboard.allSubject.goRoute,
+                  name: AppPath.dashboard.allSubject.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => AllSubjects(
+                    title: state.uri.queryParameters['title'] ?? '',
+                  ),
+                ),
+                GoRoute(
+                  path: AppPath.dashboard.subject.goRoute,
+                  name: AppPath.dashboard.subject.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => Subjects(
+                    subjectId: state.uri.queryParameters['subjectId'] ?? '',
+                  ),
+                ),
+                GoRoute(
+                  path: AppPath.dashboard.practiceQuestion.goRoute,
+                  name: AppPath.dashboard.practiceQuestion.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => PracticeQuestion(
+                    title: state.uri.queryParameters['title'] ?? '',
+                  ),
+                ),
+                GoRoute(
+                  path: AppPath.dashboard.studyQuestion.goRoute,
+                  name: AppPath.dashboard.studyQuestion.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => StudyQuestion(
+                      // title: state.uri.queryParameters['title'] ?? '',
+                      ),
+                ),
+                GoRoute(
+                  path: AppPath.dashboard.yearSelection.goRoute,
+                  name: AppPath.dashboard.yearSelection.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => YearSelection(
+                      // title: state.uri.queryParameters['title'] ?? '',
+                      ),
+                ),
+
+                
+                GoRoute(
+                  path: AppPath.dashboard.examSummary.goRoute,
+                  name: AppPath.dashboard.examSummary.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => ExamSummary(),
+                ),
+              ],
             ),
           ],
         ),
@@ -99,16 +161,14 @@ final router = GoRouter(
             GoRoute(
               path: AppPath.messaging.goRoute,
               builder: (context, state) => const ChatScreen(),
-              routes: [],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: AppPath.feed.goRoute,
-              builder: (context, state) => const FeedScreen(),
-              routes: [],
+              routes: [
+                GoRoute(
+                  path: AppPath.messaging.messages.goRoute,
+                  name: AppPath.messaging.messages.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => Messages(),
+                ),
+              ],
             ),
           ],
         ),
@@ -116,6 +176,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppPath.discover.goRoute,
+              name: AppPath.discover.goRoute,
               builder: (context, state) => const AnalyticsScreen(),
               routes: [],
             ),
@@ -124,9 +185,46 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
+              path: AppPath.feed.goRoute,
+              name: AppPath.feed.goRoute,
+              builder: (context, state) => const FeedScreen(),
+              routes: [
+                GoRoute(
+                  path: AppPath.feed.openFeed.goRoute,
+                  name: AppPath.feed.openFeed.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => OpenFeed(),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
               path: AppPath.profile.goRoute,
+              name: AppPath.profile.goRoute,
               builder: (context, state) => const ProfileScreen(),
-              routes: [],
+              routes: [
+                GoRoute(
+                  path: AppPath.profile.editProfile.goRoute,
+                  name: AppPath.profile.editProfile.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => EditProfile(),
+                ),
+                GoRoute(
+                  path: AppPath.profile.resetPassword.goRoute,
+                  name: AppPath.profile.resetPassword.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => ChangePassword(),
+                ),
+                GoRoute(
+                  path: AppPath.profile.bookmarked.goRoute,
+                  name: AppPath.profile.bookmarked.path,
+                  parentNavigatorKey: rootNavigatorKey,
+                  builder: (context, state) => Bookmarked(),
+                ),
+              ],
             ),
           ],
         ),
@@ -172,13 +270,16 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: rootScaffoldStateKey,
-      body: body,
-      drawer: const Drawer(),
-      bottomNavigationBar: BottomNavWidget(
-        currentIndex: selectedIndex,
-        onTap: onDestinationSelected,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        key: rootScaffoldStateKey,
+        body: body,
+        drawer: const Drawer(),
+        bottomNavigationBar: BottomNavWidget(
+          currentIndex: selectedIndex,
+          onTap: onDestinationSelected,
+        ),
       ),
     );
   }

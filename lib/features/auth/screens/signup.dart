@@ -1,4 +1,6 @@
 import 'package:exam_feed/app/router_paths.dart';
+import 'package:exam_feed/app/service_locator.dart';
+import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/core/utils/import.dart';
 import 'package:exam_feed/core/utils/spacer.dart';
 import 'package:exam_feed/core/utils/toast_util.dart';
@@ -26,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
+   
     super.initState();
   }
 
@@ -47,6 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             confirmPassword: _confirmPasswordController.text,
             firstName: _nameController.text,
             onSuccess: () {
+            
               context.showSuccessMessage(message: 'Signup successful');
               context.pushReplacement(AppPath.auth.login.path);
             },

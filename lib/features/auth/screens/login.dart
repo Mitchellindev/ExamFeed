@@ -1,5 +1,6 @@
 import 'package:exam_feed/app/router_paths.dart';
 import 'package:exam_feed/app/service_locator.dart';
+import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/core/utils/import.dart';
 import 'package:exam_feed/core/utils/spacer.dart';
 import 'package:exam_feed/core/utils/toast_util.dart';
@@ -26,8 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    locator.setApiHandlerToken(
-        '0xbS4TX1Wy3SwE2dNRHVyokJF5WwUNs3qOL6HFbMCra9c0c07f');
+    if (locator<SharedPrefs>().rememberMe == true) {
+      _emailController.text = locator<SharedPrefs>().email ?? '';
+      _passwordController.text = locator<SharedPrefs>().password ?? '';
+    }
     super.initState();
   }
 
@@ -45,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
             email: _emailController.text,
             password: _passwordController.text,
             onSuccess: () {
+              locator<SharedPrefs>().email = _emailController.text;
+              locator<SharedPrefs>().password = _passwordController.text;
               context.showSuccessMessage(message: 'Login successful');
               context.pushReplacement(AppPath.dashboard.path);
             },
@@ -53,10 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
             },
           );
     }
-  }
-
-  void _onTest() {
-    context.read<DashboardProvider>().orders();
   }
 
   @override
@@ -106,8 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Row(children: [
                   Checkbox(
-                    value: false,
-                    onChanged: (value) {},
+                    value: locator<SharedPrefs>().rememberMe,
+                    onChanged: (value) {
+                      locator<SharedPrefs>().rememberMe = value ?? false;
+                    },
                   ),
                   Text(
                     'Remember me',
@@ -115,10 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Spacer(),
                   GestureDetector(
-                    onTap: () {
-                      print(dash.pagingController.itemList!.length);
-                      // context.push(AppPath.auth.forgetPassword.path);
-                    },
+                    onTap: () {},
                     child: Text(
                       'Forgot password?',
                       style: TextStyle(color: AppColors.primaryColor),
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 YMargin(33),
                 CustomElevatedButtonWithIcon(
                   text: 'Continue with Google',
-                  onPressed: _onTest,
+                  onPressed: () {},
                   icon: SvgIcons.googleIcon,
                 )
               ],

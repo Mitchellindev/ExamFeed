@@ -17,6 +17,12 @@ class SharedPrefs {
     _sharedPrefs.setBool('firstTime', value);
   }
 
+  bool get rememberMe => _sharedPrefs.getBool('rememberMe') ?? true;
+
+  set rememberMe(bool value) {
+    _sharedPrefs.setBool('rememberMe', value);
+  }
+
   String? get accessToken => _sharedPrefs.getString('accessToken');
 
   set accessToken(String? value) {
@@ -35,5 +41,23 @@ class SharedPrefs {
     _sharedPrefs.setString('email', value ?? '');
   }
 
+  String? get password => _sharedPrefs.getString('password');
 
+  set password(String? value) {
+    _sharedPrefs.setString('password', value ?? '');
+  }
+
+  bool get activityNotification =>
+      _sharedPrefs.getBool('activityNotification') ?? true;
+
+  set activityNotification(bool value) {
+    _sharedPrefs.setBool('activityNotification', value);
+  }
+
+  bool get emailNotification =>
+      _sharedPrefs.getBool('emailNotification') ?? true;
+
+  set emailNotification(bool value) {
+    _sharedPrefs.setBool('emailNotification', value);
+  }
 }

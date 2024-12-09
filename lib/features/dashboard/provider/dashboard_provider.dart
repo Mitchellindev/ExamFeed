@@ -1,8 +1,10 @@
 import 'package:exam_feed/app/service_locator.dart';
-import 'package:exam_feed/core/models/order.dart';
+import 'package:exam_feed/core/api/api_helper.dart';
+import 'package:exam_feed/core/models/exambody.dart';
+import 'package:exam_feed/core/models/exambody_questions.dart';
+import 'package:exam_feed/core/models/questions.dart';
 import 'package:exam_feed/features/dashboard/repository/dashboard_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DashboardProvider extends ChangeNotifier {
   static DashboardProvider? _instance;
@@ -16,29 +18,72 @@ class DashboardProvider extends ChangeNotifier {
     return _instance!;
   }
 
-  late final DashboardRepository _dasboardRepository;
+  late DashboardRepository _dasboardRepository;
 
-  final PagingController<int, OrderResponse> pagingController =
-      PagingController(firstPageKey: 1);
+  ExamBodyModel? _examBodyModel;
+  ExamBodyModel? get examBodyModel => _examBodyModel;
 
-  Future<void> orders() async {
-    final pageKey = pagingController.nextPageKey;
-    final response =
-        await _dasboardRepository.orders(page: pageKey ?? 1, limit: 100);
-
+  Future<void> examBody({
+    required VoidCallback onSuccess,
+    required Function(ApiError val) onError,
+  }) async {
+    final response = await _dasboardRepository.examBody();
     response.when(
-      success: (data) {
-        pagingController
-            .appendLastPage(data?.data?.results.toSet().toList() ?? []);
-        return;
+      success: (data) async {
+        _examBodyModel = data?.data ?? ExamBodyModel();
 
-        // pagingController.appendPage(
-        //   data?.data?.results.toSet().toList() ?? [],
-        //   (pageKey ?? 1) + 1,
-        // );
+        onSuccess();
+        notifyListeners();
       },
       error: (error) {
-        pagingController.error = error;
+        onError(error);
+      },
+    );
+  }
+
+  ExamBodyQuestionsModel? _examBodyQuestionsModel;
+  ExamBodyQuestionsModel? get examBodyQuestionsModel => _examBodyQuestionsModel;
+
+  Future<void> examBodyQuestions({
+    required String id,
+    required VoidCallback onSuccess,
+    required Function(ApiError val) onError,
+  }) async {
+    final response = await _dasboardRepository.examBodyQuestions(id: id);
+    response.when(
+      success: (data) async {
+        _examBodyQuestionsModel = data?.data ?? ExamBodyQuestionsModel();
+
+        onSuccess();
+        notifyListeners();
+      },
+      error: (error) {
+        onError(error);
+      },
+    );
+  }
+
+  QuestionsModel? _questionsModel;
+  QuestionsModel? get questionsModel => _questionsModel;
+
+  Future<void> getQuestions({
+    required String examBody,
+    required String subjectId,
+    required String year,
+    required VoidCallback onSuccess,
+    required Function(ApiError val) onError,
+  }) async {
+    final response = await _dasboardRepository.getQuestions(
+        examBody: examBody, subjectId: subjectId, year: year);
+    response.when(
+      success: (data) async {
+        _questionsModel = data?.data ?? QuestionsModel();
+
+        onSuccess();
+        notifyListeners();
+      },
+      error: (error) {
+        onError(error);
       },
     );
   }

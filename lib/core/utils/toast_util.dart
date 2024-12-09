@@ -16,4 +16,11 @@ extension ToastUtil on BuildContext {
       background: AppColors.success,
     );
   }
+
+  void showUnavailableMessage() {
+    showSimpleNotification(
+      Text('Feature not available at the moment, please try again later'),
+      background: AppColors.primaryColor,
+    );
+  }
 }

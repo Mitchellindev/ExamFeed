@@ -47,7 +47,7 @@ class ApiSuccess<T> {
   ) {
     return ApiSuccess(
       message: (json['message']) as String?,
-      status: json['status'] as bool?,
+      status: json['status'] as String?,
       accessToken: json['access_token'] as String?,
       data: fromJson?.call(json),
       // data: fromJson?.call(json['data'] as Map<String, dynamic>),
@@ -56,7 +56,7 @@ class ApiSuccess<T> {
 
   String? message;
   String? accessToken;
-  bool? status;
+  String? status;
   T? data;
 
   @override
@@ -262,8 +262,10 @@ class ApiHandler {
       );
       log(finalResponse.toString(), name: 'DioResponse');
       return finalResponse;
-    } on dio.DioException catch (e) {
+    } on dio.DioException catch (e, s) {
       log('Error: $e', name: 'DioError');
+      log('Error: $s', name: 'DioError');
+
       // log('StackTrace: $s', name: 'DioError');
       final errorData = ((e.response?.data != null && e.response?.data is Map)
               ? ((e.response?.data as Map)['data']) as dynamic

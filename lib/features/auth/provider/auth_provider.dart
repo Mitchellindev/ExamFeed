@@ -2,6 +2,7 @@ import 'package:exam_feed/app/service_locator.dart';
 import 'package:exam_feed/core/api/api_helper.dart';
 import 'package:exam_feed/core/models/login.dart';
 import 'package:exam_feed/core/models/signup.dart';
+import 'package:exam_feed/core/storage/cache_storage.dart';
 import 'package:exam_feed/features/auth/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class AuthenticationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  late final LoginResponse _loginResponse;
+  late LoginResponse _loginResponse;
   LoginResponse get loginResponse => _loginResponse;
 
   Future<void> login({
@@ -40,9 +41,12 @@ class AuthenticationProvider extends ChangeNotifier {
           password: password,
         );
     response.when(
-      success: (data) {
+      success: (data) async {
         loginLoading = false;
-        _loginResponse = data?.data ?? LoginResponse.empty();
+        _loginResponse = data?.data ?? LoginResponse();
+        locator.get<SharedPrefs>().accessToken = _loginResponse.accessToken;
+        print(locator.get<SharedPrefs>().accessToken);
+        // await getProfile(onSuccess: onSuccess, onError: onError);
         onSuccess();
         notifyListeners();
       },
@@ -85,6 +89,41 @@ class AuthenticationProvider extends ChangeNotifier {
       },
       error: (error) {
         signUpLoading = false;
+        onError(error);
+      },
+    );
+  }
+
+  Future<void> getProfile({
+    required VoidCallback onSuccess,
+    required Function(ApiError val) onError,
+  }) async {
+    final response = await _authRepository.getProfile();
+    response.when(
+      success: (data) {
+        notifyListeners();
+        onSuccess();
+      },
+      error: (error) {
+        onError(error);
+      },
+    );
+  }
+
+  Future<void> updateProfile({
+    required String email,
+    required String name,
+    required VoidCallback onSuccess,
+    required Function(ApiError val) onError,
+  }) async {
+    final response =
+        await _authRepository.updateProfile(email: email, name: name);
+    response.when(
+      success: (data) {
+        notifyListeners();
+        onSuccess();
+      },
+      error: (error) {
         onError(error);
       },
     );

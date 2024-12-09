@@ -27,32 +27,35 @@ class AuthPath extends Path<AuthPath> {
   Path get verificationSuccess => Path('verification-success', parent: this);
   Path get forgetPassword => Path('forget-password', parent: this);
   Path get resetPassword => Path('reset-password', parent: this);
- 
 }
 
 class DashboardPath extends Path<DashboardPath> {
   DashboardPath() : super('/dashboard');
 
-  // Path get createPost => Path('create-post', parent: this);
-  // Path get notifications => Path('notifications', parent: this);
-  // Path get postDetail => Path('post-detail', parent: this);
-  // Path get videoPreview => Path('video-preview', parent: this);
-  // Path get imagePreview => Path('image-preview', parent: this);
-  // Path get audioPreview => Path('audio-preview', parent: this);
+  Path get allSubject => Path('all-subject', parent: this);
+  Path get examSummary => Path('exam-summary', parent: this);
+  Path get practiceQuestion => Path('practice-question', parent: this);
+  Path get studyQuestion => Path('study-question', parent: this);
+  Path get subject => Path('subject', parent: this);
+  Path get yearSelection => Path('year-selection', parent: this);
 }
 
 class ProfilePath extends Path<ProfilePath> {
   ProfilePath() : super('/profile');
-
+  Path get editProfile => Path('edit-profile', parent: this);
+  Path get resetPassword => Path('reset-password', parent: this);
+  Path get bookmarked => Path('bookmarked', parent: this);
 }
 
 class MessagingPath extends Path<MessagingPath> {
   MessagingPath() : super('/messaging');
+
+  Path get messages => Path('messages', parent: this);
 }
 
 class FeedsPath extends Path<FeedsPath> {
   FeedsPath() : super('/feeds');
-
+  Path get openFeed => Path('open-feed', parent: this);
 }
 
 class DiscoverPath extends Path<DiscoverPath> {

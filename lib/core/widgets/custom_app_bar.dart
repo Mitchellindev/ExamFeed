@@ -10,17 +10,63 @@ class CustomAppBar extends AppBar {
   CustomAppBar({super.key, super.title, super.actions, super.bottom})
       : super(
           leading: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
             child: ShrinkableButton(
               onTap: () => rootNavigatorKey.currentContext!.pop(),
               child: CircleAvatar(
-                backgroundColor: AppColors.neutral200,
-                child: SvgPicture.asset(
-                  SvgIcons.back,
+                backgroundColor: AppColors.skyWhite,
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.primaryColor,
                 ),
               ),
             ),
           ),
+        );
+}
+
+class CustomBackButton extends AppBar {
+  final String name;
+  CustomBackButton({
+    super.key,
+    super.actions,
+    super.bottom,
+    required this.name,
+  }) : super(
+          leading: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ShrinkableButton(
+              onTap: () => rootNavigatorKey.currentContext!.pop(),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ),
+          centerTitle: false,
+          title: Text(name,
+              style: const TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500)),
+        );
+}
+
+class DashBoardAppBar extends AppBar {
+  final String name;
+
+  DashBoardAppBar(this.name, {super.key, super.title, super.bottom, super.actions})
+      : super(
+          leadingWidth: 150,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            child: Text(name,
+                style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600)),
+          ),
+         
         );
 }
 
@@ -29,19 +75,19 @@ class CustomSliverAppBar extends SliverAppBar {
     super.key,
     super.title,
     super.actions,
-    bool noLeading = false,
   }) : super(
-          leading: noLeading
-              ? null
-              : Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: ShrinkableButton(
-                    onTap: () => rootNavigatorKey.currentContext!.pop(),
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.neutral200,
-                      child: SvgPicture.asset(' SvgIcons.back,'),
-                    ),
-                  ),
+          leading: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ShrinkableButton(
+              onTap: () => rootNavigatorKey.currentContext!.pop(),
+              child: CircleAvatar(
+                backgroundColor: AppColors.skyWhite,
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: AppColors.primaryColor,
                 ),
+              ),
+            ),
+          ),
         );
 }

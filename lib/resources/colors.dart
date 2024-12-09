@@ -1,17 +1,20 @@
 import 'dart:ui';
 
+import 'package:exam_feed/core/utils/import.dart';
+
 class AppColors {
   static const skyWhite = Color(0xffffffff);
   static const background = Color(0xffF5F4F4);
   static const pureBlack = Color(0xff000000);
   static const primaryColor = Color(0xff080357);
-  static const primary80 = Color(0xff6A5DC6);
-  static const primaryLight = Color(0xff6B50DA);
+  static const transparent = Colors.transparent;
+  static const primary80 = Color(0xffAED1FF);
+  static const primaryLight = Color(0xff4CAF50);
   static const error = Color(0xffED5556);
   static const tomato = Color(0xffF54336);
-  static const accentRed = Color(0xffDC2626);
+  static const accentRed = Color(0xffFF0000);
   static const orange = Color(0xffFF981F);
-  static const blue = Color(0xff1A96F0);
+  static const blue = Color(0xff1877F2);
   static const success = Color(0xff04802E);
   static const inkDarkest = Color(0xff090A0A);
   static const darkNeutral = Color(0xff2A2A2A);
@@ -25,6 +28,6 @@ class AppColors {
   static const neutral10 = Color(0xffECEBF8);
   static const dragColor = Color(0xffE0E0E0);
   static const neutral5 = Color(0xffF2F4F5);
-  static const neutral0 = Color(0xffAFAFAF);
+  static const neutral0 = Color(0xff808080);
   static const grey = Color(0xffD9D9D9);
 }
