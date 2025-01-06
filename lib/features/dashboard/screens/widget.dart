@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:exam_feed/app/router_paths.dart';
 import 'package:exam_feed/core/utils/import.dart';
 import 'package:exam_feed/core/utils/spacer.dart';
+import 'package:exam_feed/core/utils/toast_util.dart';
 import 'package:exam_feed/core/widgets/buttons.dart';
 import 'package:exam_feed/resources/colors.dart';
 import 'package:exam_feed/resources/resources.dart';
@@ -177,9 +176,10 @@ class FeaturedSubject extends StatelessWidget {
                             text: 'Start',
                             loading: false,
                             onPressed: () {
-                              context.pushNamed(
-                                AppPath.dashboard.subject.path,
-                              );
+                              context.showUnavailableMessage();
+                              // context.pushNamed(
+                              //   AppPath.dashboard.subject.path,
+                              // );
                             },
                             width: 100,
                             height: 31,
@@ -286,7 +286,8 @@ class SubjectWidget extends StatelessWidget {
       required this.rating,
       required this.time,
       required this.questions,
-      required this.isBookmarked, required this.onTap});
+      required this.isBookmarked,
+      required this.onTap});
   final String image, title, subject, rating, time, questions;
   final bool isBookmarked;
   final VoidCallback onTap;

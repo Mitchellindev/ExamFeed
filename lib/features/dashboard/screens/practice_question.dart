@@ -43,7 +43,7 @@ class _PracticeQuestionState extends State<PracticeQuestion>
       });
     });
     if (_duration.inSeconds == 0) {
-      _nextQuestion();
+      context.pushReplacementNamed(AppPath.dashboard.examSummary.path);
     }
   }
 
@@ -55,27 +55,23 @@ class _PracticeQuestionState extends State<PracticeQuestion>
       context.pushReplacementNamed(AppPath.dashboard.examSummary.path);
     }
     setState(() {
-      _timer?.cancel();
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
       );
       _currentIndex = -1;
       _duration = Duration(hours: 2);
-      _testCounter();
     });
   }
 
   void _previousQuestion() {
     setState(() {
-      _timer?.cancel();
       _pageController.previousPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
       );
       _currentIndex = -1;
       _duration = Duration(hours: 2);
-      _testCounter();
     });
   }
 

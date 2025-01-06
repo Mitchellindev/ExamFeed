@@ -129,9 +129,9 @@ class ApiError {
 class ApiHandler {
   ApiHandler({required String baseUrl}) {
     _dio = dio.Dio(dio.BaseOptions(baseUrl: baseUrl))
-      ..options.connectTimeout = const Duration(minutes: 1)
-      ..options.receiveTimeout = const Duration(minutes: 1)
-      ..options.sendTimeout = const Duration(minutes: 1)
+      ..options.connectTimeout = const Duration(minutes: 5)
+      ..options.receiveTimeout = const Duration(minutes: 5)
+      ..options.sendTimeout = const Duration(minutes: 5)
       ..interceptors.add(DioFirebasePerformanceInterceptor())
       ..interceptors.add(DuduziliSecurityInterceptor())
       ..interceptors.add(DuduziliEncryptionInterceptor())

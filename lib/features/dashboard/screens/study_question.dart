@@ -2,6 +2,7 @@ import 'package:exam_feed/core/utils/import.dart';
 import 'package:exam_feed/core/utils/spacer.dart';
 import 'package:exam_feed/core/widgets/buttons.dart';
 import 'package:exam_feed/core/widgets/custom_app_bar.dart';
+import 'package:exam_feed/features/dashboard/provider/dashboard_provider.dart';
 import 'package:exam_feed/resources/colors.dart';
 import 'package:exam_feed/resources/resources.dart';
 import 'package:share_plus/share_plus.dart';
@@ -9,8 +10,9 @@ import 'package:share_plus/share_plus.dart';
 class StudyQuestion extends StatefulWidget {
   const StudyQuestion({
     super.key,
+    required this.title,
   });
-
+  final String title;
   @override
   State<StudyQuestion> createState() => _StudyQuestionState();
 }
@@ -18,6 +20,7 @@ class StudyQuestion extends StatefulWidget {
 class _StudyQuestionState extends State<StudyQuestion> {
   @override
   Widget build(BuildContext context) {
+    final dash = context.watch<DashboardProvider>();
     return Scaffold(
       appBar: CustomAppBar(),
       body: Padding(
@@ -26,7 +29,7 @@ class _StudyQuestionState extends State<StudyQuestion> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'General Mathematics Answers',
+              widget.title,
               style: TextStyle(
                 color: AppColors.primaryColor,
                 fontWeight: FontWeight.w500,
@@ -46,7 +49,23 @@ class _StudyQuestionState extends State<StudyQuestion> {
             Expanded(
               child: ListView.separated(
                   itemBuilder: (_, index) {
-                    return StudyMaterials();
+                    final question = dash.questionsModel?.data?[index];
+                    final answer = question?.correctAnswer ?? '';
+                    return StudyMaterials(
+                      index: index,
+                      question: question?.question ?? '',
+                      answer: answer.toLowerCase() == 'a'
+                          ? question?.optionA ?? ''
+                          : answer.toLowerCase() == 'b'
+                              ? question?.optionB ?? ''
+                              : answer.toLowerCase() == 'c'
+                                  ? question?.optionC ?? ''
+                                  : answer.toLowerCase() == 'd'
+                                      ? question?.optionD ?? ''
+                                      : answer.toLowerCase() == 'e'
+                                          ? question?.optionE ?? ''
+                                          : '',
+                    );
                   },
                   separatorBuilder: (_, __) => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -54,7 +73,7 @@ class _StudyQuestionState extends State<StudyQuestion> {
                           height: 1,
                         ),
                       ),
-                  itemCount: 4),
+                  itemCount: dash.questionsModel?.data?.length ?? 0),
             )
           ],
         ),
@@ -64,7 +83,13 @@ class _StudyQuestionState extends State<StudyQuestion> {
 }
 
 class StudyMaterials extends StatefulWidget {
-  const StudyMaterials({super.key});
+  const StudyMaterials(
+      {super.key,
+      required this.question,
+      required this.answer,
+      required this.index});
+  final String question, answer;
+  final int index;
 
   @override
   State<StudyMaterials> createState() => _StudyMaterialsState();
@@ -81,7 +106,7 @@ class _StudyMaterialsState extends State<StudyMaterials> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '1. ',
+              '${widget.index + 1}. ',
               style: TextStyle(
                   color: AppColors.pureBlack,
                   fontSize: 18,
@@ -89,7 +114,7 @@ class _StudyMaterialsState extends State<StudyMaterials> {
             ),
             Expanded(
               child: Text(
-                'If {/displaystyle a=1} a=1 and {/displaystyle b=2} b=2, what is {/displaystyle a+b}a+b? ',
+                widget.question,
                 style: TextStyle(
                     color: AppColors.pureBlack,
                     fontSize: 18,
@@ -116,7 +141,7 @@ class _StudyMaterialsState extends State<StudyMaterials> {
                 icon: isExpanded ? SvgIcons.ouiArrowUp : SvgIcons.ouiArrowDown,
               ),
             ),
-            XMargin(36),
+            XMargin(30),
             Expanded(
               flex: 3,
               child: Row(
@@ -142,7 +167,7 @@ class _StudyMaterialsState extends State<StudyMaterials> {
         Visibility(
           visible: isExpanded,
           child: Text(
-            'To solve for a+b\nGiven a=1 and b=2, follow these steps:\nIdentify the values of a and b:\na=1\nb=2\nAdd the values of a and b\na+b =1+2\nPerform the addition:\n1+2=3\nAnswer   =   3',
+            widget.answer,
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: AppColors.pureBlack,

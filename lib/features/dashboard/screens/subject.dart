@@ -57,6 +57,39 @@ class _SubjectsState extends State<Subjects> {
         });
   }
 
+ void _studyQuestion() {
+    context.loaderOverlay.show();
+    context.read<DashboardProvider>().getQuestions(
+        subjectId: context
+                .read<DashboardProvider>()
+                .examBodyQuestionsModel
+                ?.subjects
+                ?.firstWhere((e) => e.id == widget.subjectId)
+                .sId ??
+            '',
+        year: '1978',
+        examBody:
+            context.read<DashboardProvider>().examBodyQuestionsModel?.sId ?? '',
+        onSuccess: () {
+          context
+            ..loaderOverlay.hide()
+            ..pushNamed(AppPath.dashboard.studyQuestion.path,
+                queryParameters: {
+                  'title': context
+                          .read<DashboardProvider>()
+                          .examBodyQuestionsModel
+                          ?.subjects
+                          ?.firstWhere((e) => e.id == widget.subjectId)
+                          .title ??
+                      '',
+                });
+        },
+        onError: (error) {
+          context
+            ..loaderOverlay.hide()
+            ..showErrorMessage(message: error.message);
+        });
+  }
   @override
   Widget build(BuildContext context) {
     final dash = context.watch<DashboardProvider>();
@@ -219,9 +252,7 @@ class _SubjectsState extends State<Subjects> {
                 ),
                 YMargin(16),
                 GestureDetector(
-                  onTap: () => context.pushNamed(
-                    AppPath.dashboard.studyQuestion.path,
-                  ),
+                  onTap: _studyQuestion,
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(

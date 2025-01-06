@@ -133,7 +133,7 @@ final router = GoRouter(
                   name: AppPath.dashboard.studyQuestion.path,
                   parentNavigatorKey: rootNavigatorKey,
                   builder: (context, state) => StudyQuestion(
-                      // title: state.uri.queryParameters['title'] ?? '',
+                       title: state.uri.queryParameters['title'] ?? '',
                       ),
                 ),
                 GoRoute(
